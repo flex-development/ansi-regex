@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@flex-development/ansi-regex</title>
+  </head>
+
+  <body>
+    <script type="module">
+      import { ansiRegex } from '@flex-development/ansi-regex'
+      import c from '@flex-development/colors'
+
+      const hello = c.bgWhite(c.bold(c.black('hello world 🌎')))
+
+      console.log(hello)
+
+      for (const match of hello.matchAll(ansiRegex({ d: true }))) {
+        const { groups, index, indices } = match
+        console.dir({ groups, index, indices: [...indices] }, { sorted: true })
+      }
+    </script>
+  </body>
+</html>

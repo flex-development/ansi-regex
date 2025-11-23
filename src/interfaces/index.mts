@@ -3,4 +3,4 @@
  * @module ansi-regex/interfaces
  */
 
-export type {}
+export type { default as Flags } from '#interfaces/flags'

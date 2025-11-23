@@ -3,4 +3,4 @@
  * @module ansi-regex/lib
  */
 
-export {}
+export { default as ansiRegex } from '#lib/ansi-regex'

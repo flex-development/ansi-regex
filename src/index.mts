@@ -3,4 +3,6 @@
  * @module ansi-regex
  */
 
-export {}
+export { default as ar, default } from '#ar'
+export type * from '#interfaces/index'
+export * from '#lib/index'

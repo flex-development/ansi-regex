@@ -64,6 +64,10 @@
     "./package.json": "./package.json"
   },
   "imports": {
+    "#ar": {
+      "ansi-regex": "./src/ar.mts",
+      "default": "./dist/ar.mjs"
+    },
     "#interfaces/*": {
       "ansi-regex": "./src/interfaces/*.mts",
       "default": "./dist/interfaces/*.d.mts"
@@ -128,6 +132,7 @@
     "@commitlint/cli": "20.1.0",
     "@commitlint/types": "20.0.0",
     "@faker-js/faker": "10.1.0",
+    "@flex-development/colors": "1.1.0",
     "@flex-development/commitlint-config": "1.0.1",
     "@flex-development/eslint-config": "1.1.1",
     "@flex-development/grease": "3.0.0-alpha.9",
@@ -157,7 +162,6 @@
     "remark": "15.0.1",
     "remark-cli": "12.0.1",
     "sh-syntax": "0.5.8",
-    "tinyrainbow": "3.0.3",
     "trash-cli": "7.0.0",
     "ts-dedent": "2.2.0",
     "typescript": "5.9.3",

@@ -21,12 +21,15 @@ Regular expression for matching [ANSI escape codes][ansi-escape-code]
 - [Install](#install)
 - [Use](#use)
 - [API](#api)
+  - [`ansiRegex([flags])`](#ansiregexflags)
+  - [`ar`](#ar)
 - [Types](#types)
+  - [`Flags`](#flags)
 - [Contribute](#contribute)
 
 ## What is this?
 
-**TODO**: what is this?
+This is a tiny, but useful package for matching [ANSI escape codes][ansi-escape-code] in strings.
 
 ## Install
 
@@ -55,7 +58,7 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import { ansiRegex } from 'https://esm.sh/@flex-development/ansi-regex'
+  import { ar } from 'https://esm.sh/@flex-development/ansi-regex'
 </script>
 ```
 
@@ -73,17 +76,249 @@ bun add @flex-development/ansi-regex
 
 ## Use
 
-**TODO**: use
+[`example.mjs`](./example.mjs):
+
+```js
+import { ansiRegex } from '@flex-development/ansi-regex'
+import c from '@flex-development/colors'
+import { ok } from 'devlop'
+
+const emojis = '🦄🦾🚀'
+const hello = c.bgBlue(c.bold('hello world 🌎'))
+
+console.log(`${JSON.stringify(emojis)}:`, ansiRegex().test(emojis))
+console.log(`${JSON.stringify(hello)}:`, ansiRegex().test(hello))
+
+for (const match of hello.matchAll(ansiRegex({ d: true }))) {
+  const { groups, index, indices } = match
+
+  ok(groups, 'expected `groups`')
+  console.dir({ groups, index, indices: [...indices] }, { sorted: true })
+}
+```
+
+...yields
+
+```sh
+"🦄🦾🚀": false
+"\u001b[44m\u001b[1mhello world 🌎\u001b[22m\u001b[49m": true
+{
+  groups: {
+    ansi: '\x1B[44m',
+    csi: '\x1B[44m',
+    csi_final: 'm',
+    csi_intermediate: '',
+    csi_introducer: '\x1B',
+    csi_params: '44',
+    esc: undefined,
+    esc_final: undefined,
+    osc: undefined,
+    osc_command: undefined,
+    osc_data: undefined,
+    osc_introducer: undefined,
+    osc_sep: undefined,
+    osc_terminator: undefined
+  },
+  index: 0,
+  indices: [
+    [ 0, 5 ],
+    [ 0, 5 ],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    [ 0, 5 ],
+    [ 0, 1 ],
+    [ 2, 4 ],
+    [ 4, 4 ],
+    [ 4, 5 ],
+    undefined,
+    undefined
+  ]
+}
+{
+  groups: {
+    ansi: '\x1B[1m',
+    csi: '\x1B[1m',
+    csi_final: 'm',
+    csi_intermediate: '',
+    csi_introducer: '\x1B',
+    csi_params: '1',
+    esc: undefined,
+    esc_final: undefined,
+    osc: undefined,
+    osc_command: undefined,
+    osc_data: undefined,
+    osc_introducer: undefined,
+    osc_sep: undefined,
+    osc_terminator: undefined
+  },
+  index: 5,
+  indices: [
+    [ 5, 9 ],
+    [ 5, 9 ],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    [ 5, 9 ],
+    [ 5, 6 ],
+    [ 7, 8 ],
+    [ 8, 8 ],
+    [ 8, 9 ],
+    undefined,
+    undefined
+  ]
+}
+{
+  groups: {
+    ansi: '\x1B[22m',
+    csi: '\x1B[22m',
+    csi_final: 'm',
+    csi_intermediate: '',
+    csi_introducer: '\x1B',
+    csi_params: '22',
+    esc: undefined,
+    esc_final: undefined,
+    osc: undefined,
+    osc_command: undefined,
+    osc_data: undefined,
+    osc_introducer: undefined,
+    osc_sep: undefined,
+    osc_terminator: undefined
+  },
+  index: 23,
+  indices: [
+    [ 23, 28 ],
+    [ 23, 28 ],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    [ 23, 28 ],
+    [ 23, 24 ],
+    [ 25, 27 ],
+    [ 27, 27 ],
+    [ 27, 28 ],
+    undefined,
+    undefined
+  ]
+}
+{
+  groups: {
+    ansi: '\x1B[49m',
+    csi: '\x1B[49m',
+    csi_final: 'm',
+    csi_intermediate: '',
+    csi_introducer: '\x1B',
+    csi_params: '49',
+    esc: undefined,
+    esc_final: undefined,
+    osc: undefined,
+    osc_command: undefined,
+    osc_data: undefined,
+    osc_introducer: undefined,
+    osc_sep: undefined,
+    osc_terminator: undefined
+  },
+  index: 28,
+  indices: [
+    [ 28, 33 ],
+    [ 28, 33 ],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    [ 28, 33 ],
+    [ 28, 29 ],
+    [ 30, 32 ],
+    [ 32, 32 ],
+    [ 32, 33 ],
+    undefined,
+    undefined
+  ]
+}
+```
 
 ## API
 
-**TODO**: api
+This package exports the following identifiers:
+
+- [`ansiRegex`](#ansiregexflags)
+- [`ar`](#ar)
+
+The default export is [`ar`](#ar).
+
+### `ansiRegex([flags])`
+
+Create a regular expression matching ANSI escape codes.
+
+#### Parameters
+
+- `flags` ([`Flags`](#flags) | `null` | `undefined`)
+  — an object representing the regular expression flags to apply
+
+#### Returns
+
+(`RegExp`) New regular expression matching ANSI escape codes
+
+### `ar`
+
+(`RegExp`)
+
+The default regular expression matching ANSI escape codes.
 
 ## Types
 
 This package is fully typed with [TypeScript][].
 
-**TODO**: types
+### `Flags`
+
+Record, where each key is a regular expression flag
+and each truthy value indicates if the flag should be applied to the regular expression (`interface`).
+
+```ts
+interface Flags {/* see code */}
+```
+
+When developing extensions that use additional flags, augment `Flags` to register custom flags:
+
+```ts
+declare module '@flex-development/ansi-regex' {
+  interface Flags {
+    i?: boolean | null | undefined
+  }
+}
+```
+
+#### Properties
+
+- `d?` (`boolean` | `null` | `undefined`)
+  — whether to generate indices for substring matches
+  > 👀 [`RegExp#hasIndices`][regexp-d]
+- `g?` (`boolean` | `null` | `undefined`)
+  — whether to perform global search
+  > 👀 [`RegExp#global`][regexp-g]
+- `u?` (`boolean` | `null` | `undefined`)
+  — whether to treat a pattern as a sequence of unicode code points
+  > 👀 [`RegExp#unicode`][regexp-u]
+- `v?` (`boolean` | `null` | `undefined`)
+  — whether to treat a pattern as a sequence of unicode code points.\\
+  > 👉 the `v` flag is an "upgrade" to the `u` flag that enables additional unicode-related features.
+  > because `u` and `v` interpret the same regex in incompatible ways,
+  > enabling both flags at once results in a `SyntaxError`\
+  > 👀 [`RegExp#unicodeSets`][regexp-v]
+- `y?` (`boolean` | `null` | `undefined`)
+  — whether to start matches at the current position in the target string
+  > 👀 [`RegExp#sticky`][regexp-y]
 
 ## Contribute
 
@@ -99,6 +334,16 @@ community you agree to abide by its terms.
 [esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
 [esmsh]: https://esm.sh
+
+[regexp-d]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/hasIndices
+
+[regexp-g]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/global
+
+[regexp-u]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode
+
+[regexp-v]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicodeSets
+
+[regexp-y]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/sticky
 
 [typescript]: https://www.typescriptlang.org
 

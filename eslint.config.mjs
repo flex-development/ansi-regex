@@ -12,6 +12,14 @@ import fldv from '@flex-development/eslint-config'
  * @type {import('eslint').Linter.Config[]}
  * @const config
  */
-const config = [...fldv.configs.node]
+const config = [
+  ...fldv.configs.node,
+  {
+    files: ['src/__tests__/ar.spec.mts'],
+    rules: {
+      'unicorn/escape-case': 0
+    }
+  }
+]
 
 export default config
