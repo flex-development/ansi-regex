@@ -1,7 +1,7 @@
 {
   "name": "@flex-development/ansi-regex",
   "description": "Regular expression for matching ANSI escape codes",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "keywords": [
     "256",
     "ansi",
