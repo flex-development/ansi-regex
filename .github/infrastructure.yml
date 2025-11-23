@@ -185,6 +185,7 @@ repository:
     - colors
     - console
     - node
+    - regex
     - terminal
   visibility: public
   vulnerability_alerts: true
