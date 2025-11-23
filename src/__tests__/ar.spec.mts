@@ -54,7 +54,7 @@ describe('unit:ar', () => {
        * @param {string} string
        *  The string containing control characters
        * @return {string}
-       *  `value` with human-readable control characters
+       *  `string` with human-readable control characters
        */
       function hrc(this: void, string: string): string {
         /**

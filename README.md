@@ -93,7 +93,50 @@ for (const match of hello.matchAll(ansiRegex({ d: true }))) {
   const { groups, index, indices } = match
 
   ok(groups, 'expected `groups`')
-  console.dir({ groups, index, indices: [...indices] }, { sorted: true })
+
+  console.dir({
+    group: Object.entries(groups).reduce((acc, [key, value]) => {
+      if (typeof value === 'string') value = hrc(value)
+      return acc[key] = value, acc
+    }, {}),
+    index,
+    indices: [...indices]
+  }, { sorted: true })
+}
+
+/**
+ * Make control characters in `string` human-readable.
+ *
+ * @this {void}
+ *
+ * @param {string} string
+ *  The string containing control characters
+ * @return {string}
+ *  `string` with human-readable control characters
+ */
+function hrc(string) {
+  /**
+   * Regular expression matching control characters.
+   *
+   * @const {RegExp} controls
+   */
+  const controls = /[\u0000-\u001F\u007F-\u009F]/g
+
+  return string.replace(controls, hr)
+
+  /**
+   * Convert a control `character` to a human-readable string.
+   *
+   * @this {void}
+   *
+   * @param {string} character
+   *  The control character
+   * @return {string}
+   *  The control `character` as a human-readable string
+   */
+  function hr(character) {
+    return `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`
+  }
 }
 ```
 
@@ -103,12 +146,12 @@ for (const match of hello.matchAll(ansiRegex({ d: true }))) {
 "🦄🦾🚀": false
 "\u001b[44m\u001b[1mhello world 🌎\u001b[22m\u001b[49m": true
 {
-  groups: {
-    ansi: '\x1B[44m',
-    csi: '\x1B[44m',
+  group: {
+    ansi: '\\u001b[44m',
+    csi: '\\u001b[44m',
     csi_final: 'm',
     csi_intermediate: '',
-    csi_introducer: '\x1B',
+    csi_introducer: '\\u001b',
     csi_params: '44',
     esc: undefined,
     esc_final: undefined,
@@ -139,12 +182,12 @@ for (const match of hello.matchAll(ansiRegex({ d: true }))) {
   ]
 }
 {
-  groups: {
-    ansi: '\x1B[1m',
-    csi: '\x1B[1m',
+  group: {
+    ansi: '\\u001b[1m',
+    csi: '\\u001b[1m',
     csi_final: 'm',
     csi_intermediate: '',
-    csi_introducer: '\x1B',
+    csi_introducer: '\\u001b',
     csi_params: '1',
     esc: undefined,
     esc_final: undefined,
@@ -175,12 +218,12 @@ for (const match of hello.matchAll(ansiRegex({ d: true }))) {
   ]
 }
 {
-  groups: {
-    ansi: '\x1B[22m',
-    csi: '\x1B[22m',
+  group: {
+    ansi: '\\u001b[22m',
+    csi: '\\u001b[22m',
     csi_final: 'm',
     csi_intermediate: '',
-    csi_introducer: '\x1B',
+    csi_introducer: '\\u001b',
     csi_params: '22',
     esc: undefined,
     esc_final: undefined,
@@ -211,12 +254,12 @@ for (const match of hello.matchAll(ansiRegex({ d: true }))) {
   ]
 }
 {
-  groups: {
-    ansi: '\x1B[49m',
-    csi: '\x1B[49m',
+  group: {
+    ansi: '\\u001b[49m',
+    csi: '\\u001b[49m',
     csi_final: 'm',
     csi_intermediate: '',
-    csi_introducer: '\x1B',
+    csi_introducer: '\\u001b',
     csi_params: '49',
     esc: undefined,
     esc_final: undefined,

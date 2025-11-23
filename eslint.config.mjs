@@ -15,6 +15,12 @@ import fldv from '@flex-development/eslint-config'
 const config = [
   ...fldv.configs.node,
   {
+    files: ['example.mjs'],
+    rules: {
+      'no-control-regex': 0
+    }
+  },
+  {
     files: ['src/__tests__/ar.spec.mts'],
     rules: {
       'unicorn/escape-case': 0
